@@ -13,30 +13,21 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col size="12" size-md="8" offset-md="2" size-lg="6" offset-lg="3">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>
-              Select One
-            </ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-item button [routerLink]="'tech'">
-              <ion-label>
-                Technologies
-              </ion-label>
-            </ion-item>
-            <ion-item button [routerLink]="'countries'">
-              <ion-label>
-                Countries
-              </ion-label>
-            </ion-item>
-            <ion-item button [routerLink]="'versions'">
-              <ion-label>
-                Versions
-              </ion-label>
-            </ion-item>
-          </ion-card-content>
-        </ion-card>
+        <ion-item button [routerLink]="'tech'">
+          <ion-label>
+            Technologies
+          </ion-label>
+        </ion-item>
+        <ion-item button [routerLink]="'countries'">
+          <ion-label>
+            Countries
+          </ion-label>
+        </ion-item>
+        <ion-item button [routerLink]="'versions'">
+          <ion-label>
+            Versions
+          </ion-label>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
