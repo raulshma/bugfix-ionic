@@ -1,31 +1,40 @@
 {
   "name": "bug-fixes",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "raulshma",
+  "homepage": "https://raulshma.xyz/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "ionic serve -- --proxy-config proxy.conf.js",
+    "start": "ng serve --proxy-config proxy.conf.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
+    "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
+    "postinstall": "npm run prettier -s"
   },
   "private": true,
   "dependencies": {
+    "-": "0.0.1",
     "@angular/common": "~9.1.6",
     "@angular/core": "~9.1.6",
     "@angular/forms": "~9.1.6",
     "@angular/platform-browser": "~9.1.6",
     "@angular/platform-browser-dynamic": "~9.1.6",
     "@angular/router": "~9.1.6",
+    "@angularclass/hmr": "^2.1.3",
     "@capacitor/android": "^2.3.0",
     "@capacitor/core": "2.3.0",
     "@ionic-native/core": "^5.0.7",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
+    "@ionic/storage": "^2.2.0",
+    "lodash": "^4.17.19",
     "rxjs": "~6.5.1",
+    "save-dev": "0.0.1-security",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
@@ -39,8 +48,9 @@
     "@ionic/angular-toolkit": "^2.1.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/lodash": "^4.14.157",
     "codelyzer": "^5.1.2",
+    "https-proxy-agent": "^5.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~5.0.0",
@@ -48,10 +58,23 @@
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
+    "prettier": "^2.0.5",
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "~3.8.3"
   },
-  "description": "An Ionic project"
+  "prettier": {
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.scss",
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
+  },
+  "description": "---"
 }

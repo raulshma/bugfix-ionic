@@ -1,0 +1,77 @@
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="register(form)">
+    <ion-grid>
+      <ion-row justify-content-center align-items-center>
+        <ion-col
+          align-self-center
+          size-md="6"
+          offset-md="3"
+          size-lg="6"
+          offset-lg="3"
+          size-xs="12"
+        >
+          <div class="ion-text-center">
+            <h1>REGISTER</h1>
+          </div>
+          <div padding>
+            <ion-item class="ion-margin-bottom">
+              <ion-label position="floating">Username</ion-label>
+              <ion-input
+                name="username"
+                type="text"
+                ngModel
+                required
+              ></ion-input>
+            </ion-item>
+            <ion-item class="ion-margin-bottom">
+              <ion-label position="floating">Email</ion-label>
+              <ion-input
+                name="email"
+                type="email"
+                ngModel
+                required
+                [pattern]="validateEmail"
+              ></ion-input>
+            </ion-item>
+            <ion-item class="ion-margin-bottom">
+              <ion-label position="floating">Password</ion-label>
+              <ion-input
+                name="password"
+                type="password"
+                ngModel
+                required
+                [pattern]="validatePassword"
+              ></ion-input>
+            </ion-item>
+            <ion-item class="ion-margin-bottom">
+              <ion-label position="floating">Confirm Password</ion-label>
+              <ion-input
+                name="confirm"
+                type="password"
+                ngModel
+                required
+                [pattern]="validatePassword"
+              ></ion-input>
+            </ion-item>
+          </div>
+          <div padding>
+            <ion-button
+              size="large"
+              type="submit"
+              [disabled]="form.invalid"
+              expand="block"
+              color="tertiary"
+              >Register</ion-button
+            >
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="center-flex">
+        <div class="ion-text-center">
+          Have account?
+          <a routerLink="/login"> Login</a> now!
+        </div>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
