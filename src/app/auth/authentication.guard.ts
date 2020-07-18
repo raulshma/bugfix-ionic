@@ -26,6 +26,7 @@ export class AuthenticationGuard implements CanActivate, OnDestroy {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
+    // return true;
     if (this.authService.isLoggedIn()) return true;
     log.debug('Not authenticated, redirecting and adding redirect url...');
     this.router.navigate(['/login'], {

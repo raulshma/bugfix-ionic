@@ -21,6 +21,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./auth/login/login.module').then((m) => m.LoginPageModule),
   },
+  {
+    path: 'admin',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminPageModule),
+  },
   { path: '**', redirectTo: '' },
 ];
 @NgModule({

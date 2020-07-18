@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="admin"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Countries</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-virtual-scroll [items]="countriesList" approxItemHeight="47px">
+    <ion-item *virtualItem="let item;">
+      <ion-label>{{item.name}}</ion-label>
+      <ion-note slot="end" color="medium">{{item.alpha2_code}}</ion-note>
+    </ion-item>
+  </ion-virtual-scroll>
+</ion-content>

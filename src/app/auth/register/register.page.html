@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [fullscreen]="true">
   <form #form="ngForm" (ngSubmit)="register(form)">
     <ion-grid>
       <ion-row justify-content-center align-items-center>
@@ -13,7 +13,7 @@
           <div class="ion-text-center">
             <h1>REGISTER</h1>
           </div>
-          <div padding>
+          <div>
             <ion-item class="ion-margin-bottom">
               <ion-label position="floating">Username</ion-label>
               <ion-input
