@@ -1,0 +1,7 @@
+{
+  "name": "BugFixes",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
