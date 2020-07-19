@@ -9,6 +9,7 @@
     "ionic:serve": "ionic serve -- --proxy-config proxy.conf.js",
     "ng:serve": "ng serve --proxy-config proxy.conf.js",
     "build": "ng build --prod",
+    "build:ionic": "ionic build --prod && npx cap copy",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

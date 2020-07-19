@@ -1,4 +1,5 @@
 //Angular
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 //Modules
+import { CoreModule } from '@core';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -19,7 +21,6 @@ import { AuthModule } from './auth/auth.module';
 
 //Components
 import { AppComponent } from './app.component';
-import { CoreModule } from '@core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,10 @@ import { CoreModule } from '@core';
     AppRoutingModule,
   ],
   providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

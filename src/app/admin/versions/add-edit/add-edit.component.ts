@@ -33,7 +33,7 @@ export class AddEditComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  dismiss(res: Version_M) {
+  dismiss(res: Version_M = null) {
     let data = {
       action: this.action,
       isSuccess: this.isSuccess,
