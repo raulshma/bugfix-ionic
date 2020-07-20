@@ -5,35 +5,34 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
 import { ModalController } from '@ionic/angular';
 
-import { PreReleaseTypes } from '@shared/constants/select-items.constants';
-
+import { Bug } from '@shared/models/admin/bugs.model';
+import { Tech } from '@shared/models/admin/technologies.model';
 import { Version_M } from '@shared/models/admin/versions.model';
 
-import { AdminService } from '../../admin.service';
+import { BugsService } from '../bugs.service';
 
 @Component({
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.scss'],
 })
-export class AddEditVersionsComponent implements OnInit {
+export class AddEditBugsComponent implements OnInit {
   myForm: FormGroup;
-  releaseTypes = PreReleaseTypes;
 
-  @Input() data: Version_M;
+  @Input() data: Bug;
+  @Input() extras: { id: number; tech: Tech[]; versions: Version_M[] };
   @Input() action: string;
 
   private isSuccess: boolean;
   constructor(
     public modalCtrl: ModalController,
-    private adminService: AdminService,
+    private bugsService: BugsService,
     private fb: FormBuilder
   ) {}
 
-  dismiss(res: Version_M = null) {
+  dismiss(res: Bug = null) {
     let data = {
       action: this.action,
       isSuccess: this.isSuccess,
@@ -45,7 +44,8 @@ export class AddEditVersionsComponent implements OnInit {
   ngOnInit(): void {
     this.myForm = this.initiateForm(this.action);
     if (this.action === 'Edit') {
-      this.myForm.patchValue({ ...this.data });
+      const tech_id = this.extras.tech.find((e) => e.id === this.data.tech_id);
+      this.myForm.patchValue({ ...this.data, tech_id });
     }
   }
 
@@ -54,21 +54,19 @@ export class AddEditVersionsComponent implements OnInit {
       this.myForm.updateValueAndValidity();
       return;
     }
+    const formValue = this.myForm.value;
+    formValue.tech_id = formValue.tech_id.id;
     if (this.action === 'Add') {
-      this.adminService
-        .postVersion(this.myForm.value)
-        .subscribe((res: Version_M) => {
-          this.isSuccess = true;
-          this.dismiss(res);
-        });
+      this.bugsService.post(formValue).subscribe((res: Bug) => {
+        this.isSuccess = true;
+        this.dismiss(res);
+      });
     } else {
       if (this.myForm.touched && this.myForm.dirty) {
-        this.adminService
-          .putVersion(this.myForm.value)
-          .subscribe((res: number) => {
-            this.isSuccess = true;
-            this.dismiss(this.myForm.value);
-          });
+        this.bugsService.update(formValue).subscribe((res: Bug) => {
+          this.isSuccess = true;
+          this.dismiss(formValue);
+        });
       } else {
         // this.toastr.info('Nothing to update');
       }
@@ -77,10 +75,13 @@ export class AddEditVersionsComponent implements OnInit {
 
   initiateForm(type: string) {
     const form = this.fb.group({
-      major: [0, Validators.required],
-      minor: [0, Validators.required],
-      patch: [0, Validators.required],
-      pre_release: [PreReleaseTypes[0].value, Validators.required],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      tech_id: [null, Validators.required],
+      version_id: [null, Validators.required],
+      is_fixed: [false],
+      image: [''],
+      user_id: [this.extras.id],
     });
     if (type === 'Edit') {
       form.addControl('id', new FormControl(null, Validators.required));

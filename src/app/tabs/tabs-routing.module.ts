@@ -13,14 +13,14 @@ const routes: Routes = [
           import('../admin/admin.module').then((m) => m.AdminPageModule),
       },
       {
-        path: 'tab2',
+        path: 'bugs',
         loadChildren: () =>
-          import('../tab2/tab2.module').then((m) => m.Tab2PageModule),
+          import('../bugs/bugs.module').then((m) => m.BugsPageModule),
       },
       {
-        path: 'tab3',
+        path: 'profile',
         loadChildren: () =>
-          import('../tab3/tab3.module').then((m) => m.Tab3PageModule),
+          import('../profile/profile.module').then((m) => m.ProfilePageModule),
       },
       {
         path: '',

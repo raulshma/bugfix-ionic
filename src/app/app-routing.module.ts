@@ -27,6 +27,21 @@ const routes: Routes = [
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminPageModule),
   },
+  {
+    path: 'bugs',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () => import('./bugs/bugs.module').then( m => m.BugsPageModule)
+  },
+  {
+    path: 'profile',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'settings',
+    canActivate: [AuthenticationGuard],
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
   { path: '**', redirectTo: '' },
 ];
 @NgModule({

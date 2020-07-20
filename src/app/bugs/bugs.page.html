@@ -1,0 +1,63 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="add()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Bugs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div *ngIf="isLoading"><ion-spinner></ion-spinner></div>
+<ion-content [fullscreen]="true" *ngIf="!isLoading">
+  <ion-item>
+    <ion-label>Tech</ion-label>
+    <ionic-selectable
+      (selectionChange)="filterChanged($event.value)"
+      [disabled]="bugs && bugs.length <= 0"
+      [(ngModel)]="filterValue"
+      interface="item-content"
+      itemValueField="id"
+      itemTextField="name"
+      [items]="tech"
+      [hasVirtualScroll]="true"
+      [canSearch]="true"
+    >
+    </ionic-selectable>
+  </ion-item>
+  <ion-grid>
+    <ion-virtual-scroll [items]="filteredBugs" approxItemHeight="409px">
+      <ion-row *virtualItem="let item;">
+        <ion-col>
+          <ion-card>
+            <ion-img [src]="item.image"></ion-img>
+            <ion-card-header>
+              <ion-card-subtitle
+                ><ion-badge [color]="item.is_fixed?'success':'danger'"
+                  >{{item.is_fixed?'Fixed':'Open'}}</ion-badge
+                ></ion-card-subtitle
+              >
+              <ion-card-title>
+                <div class="heading">
+                  <h1>{{item.title}}</h1>
+                  <ion-icon
+                    (click)="delete(item.id)"
+                    name="trash-outline"
+                  ></ion-icon></div
+              ></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              {{item.description}}
+            </ion-card-content>
+            <div class="outer">
+              <div class="footer" *ngIf="item.user_id === userData.id">
+                <ion-icon (click)="edit(item)" name="create-outline"></ion-icon>
+              </div>
+            </div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-virtual-scroll>
+  </ion-grid>
+</ion-content>
