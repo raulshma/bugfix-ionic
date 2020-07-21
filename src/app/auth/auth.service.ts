@@ -20,7 +20,7 @@ export class AuthService {
         if (res.user) {
           this.storage.set('ACCESS_TOKEN', res.token);
           this.storage.set('EXPIRES_IN', res.expiresAt);
-          this.storage.set('USER',res.user);
+          this.storage.set('USER', res.user);
           this.authSubject.next(true);
         }
       })
@@ -33,7 +33,7 @@ export class AuthService {
         if (res.user) {
           this.storage.set('ACCESS_TOKEN', res.token);
           this.storage.set('EXPIRES_IN', res.expiresAt);
-          this.storage.set('USER',res.user);
+          this.storage.set('USER', res.user);
           this.authSubject.next(true);
         }
       })
@@ -46,6 +46,10 @@ export class AuthService {
     this.authSubject.next(false);
   }
 
+  refreshLogin() {
+    this.authSubject.next(true);
+  }
+  
   isLoggedIn() {
     return this.authSubject.value;
   }

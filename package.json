@@ -37,6 +37,7 @@
     "express": "^4.17.1",
     "ionic-selectable": "^4.7.1",
     "lodash": "^4.17.19",
+    "ng-lazyload-image": "^8.0.1",
     "rxjs": "~6.5.1",
     "save-dev": "0.0.1-security",
     "tslib": "^1.10.0",

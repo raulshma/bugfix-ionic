@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { BugsPage } from './bugs.page';
+import { BugDetailsPage } from './bug-details.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: BugsPage
-  },
-  {
-    path: ':bugid',
-    loadChildren: () => import('./bug-details/bug-details.module').then( m => m.BugDetailsPageModule)
+    component: BugDetailsPage
   }
 ];
 
@@ -18,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BugsPageRoutingModule {}
+export class BugDetailsPageRoutingModule {}

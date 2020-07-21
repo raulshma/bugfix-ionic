@@ -9,12 +9,21 @@
   </ion-toolbar>
 </ion-header>
 
-<div *ngIf="isLoading"><ion-spinner></ion-spinner></div>
-<ion-content [fullscreen]="true" *ngIf="!isLoading">
-  <ion-item>
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-item color="light">
     <ion-label>Tech</ion-label>
     <ionic-selectable
-      (selectionChange)="filterChanged($event.value)"
+      
+      (onChange)="filterChanged($event.value)"
       [disabled]="bugs && bugs.length <= 0"
       [(ngModel)]="filterValue"
       interface="item-content"
@@ -30,8 +39,10 @@
     <ion-virtual-scroll [items]="filteredBugs" approxItemHeight="409px">
       <ion-row *virtualItem="let item;">
         <ion-col>
-          <ion-card>
-            <ion-img [src]="item.image"></ion-img>
+          <ion-card
+            [style]="!item.is_fixed?'border-top: 1px solid #ff9b99':'border-top: 1px solid #00985b'"
+          >
+            <!-- <ion-img [src]="item.image"></ion-img> -->
             <ion-card-header>
               <ion-card-subtitle
                 ><ion-badge [color]="item.is_fixed?'success':'danger'"
@@ -40,21 +51,22 @@
               >
               <ion-card-title>
                 <div class="heading">
-                  <h1>{{item.title}}</h1>
-                  <ion-icon
-                    (click)="delete(item.id)"
-                    name="trash-outline"
-                  ></ion-icon></div
+                  <h1 [routerLink]="['/tabs/bugs',item.id]">{{item.title}}</h1>
+                  <div>
+                    <ion-icon
+                      (click)="delete(item.id)"
+                      name="trash-outline"
+                    ></ion-icon>
+                    <ion-icon
+                      (click)="edit(item)"
+                      name="create-outline"
+                    ></ion-icon>
+                  </div></div
               ></ion-card-title>
             </ion-card-header>
             <ion-card-content>
               {{item.description}}
             </ion-card-content>
-            <div class="outer">
-              <div class="footer" *ngIf="item.user_id === userData.id">
-                <ion-icon (click)="edit(item)" name="create-outline"></ion-icon>
-              </div>
-            </div>
           </ion-card>
         </ion-col>
       </ion-row>

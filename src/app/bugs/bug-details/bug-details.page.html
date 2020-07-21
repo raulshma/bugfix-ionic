@@ -1,0 +1,45 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="tabs/bugs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Bug Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ng-container *ngIf="bug">
+  <ion-content [fullscreen]="true">
+    <img
+      [defaultImage]="defaultImage"
+      [lazyLoad]="bug.image"
+    />
+    <ion-card class="details">
+      <ion-card-header>{{bug.title.toUpperCase()}}</ion-card-header>
+      <ion-card-subtitle
+        ><ion-badge [color]="bug.is_fixed?'success':'danger'"
+          >{{bug.is_fixed?'Fixed':'Open'}}</ion-badge
+        ></ion-card-subtitle
+      >
+      <ion-card-content>
+        {{bug.description}}
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="comments">
+      <ion-buttons slot="middle">
+        <ion-button>
+          Comment
+        </ion-button>
+      </ion-buttons>
+    </ion-card>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button
+          ><ion-icon name="arrow-undo-outline"></ion-icon
+        ></ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </ion-content>
+</ng-container>

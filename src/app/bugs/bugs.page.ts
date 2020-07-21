@@ -8,13 +8,13 @@ import { Storage } from '@ionic/storage';
 
 import { Bug } from '@shared/models/admin/bugs.model';
 import { Tech } from '@shared/models/admin/technologies.model';
+import { Version_M } from '@shared/models/admin/versions.model';
 
+import { untilDestroyed } from '@core';
 import { AdminService } from '../admin/admin.service';
 import { BugsService } from './bugs.service';
 
 import { AddEditBugsComponent } from './add-edit/add-edit.component';
-import { Version_M } from '@shared/models/admin/versions.model';
-import { untilDestroyed } from '@core';
 
 @Component({
   selector: 'app-bugs',
@@ -22,8 +22,6 @@ import { untilDestroyed } from '@core';
   styleUrls: ['./bugs.page.scss'],
 })
 export class BugsPage implements OnInit, OnDestroy {
-  isLoading: boolean = true;
-
   isFiltered: boolean = false;
   filterValue: any;
 
@@ -48,11 +46,9 @@ export class BugsPage implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.userData = await this.storage.get('USER');
-    Promise.all([this.getTechs(), this.getBugs(), this.getVersions()]).then(
-      (e) => {
-        this.isLoading = false;
-      }
-    );
+    this.getTechs();
+    this.getBugs();
+    this.getVersions();
   }
 
   async getTechs() {
@@ -60,6 +56,7 @@ export class BugsPage implements OnInit, OnDestroy {
       .getAllTechnologies()
       .subscribe((data: Tech[]) => {
         this.tech = data;
+        this.tech.unshift({ id: -1, name: 'CLEAR SELECTION' });
       });
   }
 
@@ -85,7 +82,7 @@ export class BugsPage implements OnInit, OnDestroy {
         action: 'Add',
         extras: {
           id: this.userData.id,
-          tech: this.tech,
+          tech: this.tech.slice(1, this.tech.length - 2),
           versions: this.versions,
         },
       },
@@ -94,13 +91,14 @@ export class BugsPage implements OnInit, OnDestroy {
     const {
       data: { data, isSuccess, action },
     } = await modal.onWillDismiss();
-    if (isSuccess) {
-      this.filteredBugs.push(data);
-      this.filteredBugs = [...this.filteredBugs];
-      await this.toast('Added');
-    } else {
-      await this.toast('Failed');
-    }
+    if (data !== null)
+      if (isSuccess) {
+        this.filteredBugs.push(data);
+        this.filteredBugs = [...this.filteredBugs];
+        await this.toast('Added');
+      } else {
+        await this.toast('Failed');
+      }
   }
 
   async edit(item: Bug) {
@@ -112,7 +110,7 @@ export class BugsPage implements OnInit, OnDestroy {
         action: 'Edit',
         extras: {
           id: this.userData.id,
-          tech: this.tech,
+          tech: this.tech.slice(1, this.tech.length - 2),
           versions: this.versions,
         },
       },
@@ -121,14 +119,15 @@ export class BugsPage implements OnInit, OnDestroy {
     const {
       data: { data, isSuccess, action },
     } = await modal.onWillDismiss();
-    if (isSuccess) {
-      const idx = this.filteredBugs.findIndex((e) => e.id === data.id);
-      this.filteredBugs[idx] = data;
-      this.filteredBugs = [...this.filteredBugs];
-      await this.toast('Updated');
-    } else {
-      await this.toast('Failed');
-    }
+    if (data !== null)
+      if (isSuccess) {
+        const idx = this.filteredBugs.findIndex((e) => e.id === data.id);
+        this.filteredBugs[idx] = data;
+        this.filteredBugs = [...this.filteredBugs];
+        await this.toast('Updated');
+      } else {
+        await this.toast('Failed');
+      }
   }
 
   async delete(id: number) {
@@ -172,12 +171,23 @@ export class BugsPage implements OnInit, OnDestroy {
     toast.present();
   }
 
-  filterChanged(value: number) {
-    if (value === undefined) {
+  async doRefresh(event: any) {
+    await this.bugService.getAll().subscribe((data: Bug[]) => {
+      this.bugs = data;
+      this.filteredBugs = this.bugs;
+      event.target.complete();
+    });
+  }
+
+  filterChanged(value: Tech) {
+    if (value.id === -1) {
       this.filteredBugs = this.bugs;
       this.isFiltered = false;
+      this.filterValue = null;
     } else {
-      this.filteredBugs = this.bugs.filter((bug: Bug) => bug.tech_id === value);
+      this.filteredBugs = this.bugs.filter(
+        (bug: Bug) => bug.tech_id === value.id
+      );
       this.isFiltered = false;
     }
   }
