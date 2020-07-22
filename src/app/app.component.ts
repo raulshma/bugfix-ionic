@@ -12,6 +12,7 @@ import { AuthService } from './auth/auth.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  colorMode: string = 'Light';
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -22,6 +23,13 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
   async ngOnInit(): Promise<void> {
+    const color = await this.storage.get('COLOR_MODE');
+    if (color) {
+      this.colorMode = color;
+    } else {
+      this.colorMode = 'Light';
+    }
+    this.setMode();
     const isLoggedIn = await this.storage.get('EXPIRES_IN');
     console.log('Logged in detected...');
     if (isLoggedIn > Date.now()) {
@@ -34,5 +42,9 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+  private setMode() {
+    const mode = this.colorMode === 'Light' ? false : true;
+    document.body.classList.toggle('dark', mode);
   }
 }

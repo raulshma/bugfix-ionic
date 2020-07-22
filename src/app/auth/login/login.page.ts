@@ -31,13 +31,13 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.isLoggedIn()) this.router.navigateByUrl('');
+    if (this.authService.isLoggedIn()) this.router.navigateByUrl('tabs/bugs');
   }
 
   login(form) {
     this.authService.login(form.value).subscribe(
       (res) => {
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('tabs/bugs');
       },
       async (error) => await this.failed()
     );

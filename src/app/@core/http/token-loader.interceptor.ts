@@ -22,7 +22,6 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class HttpTokenLoadingInterceptor implements HttpInterceptor {
-  loaderToShow: any;
   constructor(
     public loadingController: LoadingController,
     private storage: Storage
@@ -46,38 +45,38 @@ export class HttpTokenLoadingInterceptor implements HttpInterceptor {
           });
         }
 
-        this.showLoader();
-        return next.handle(request).pipe(
-          map((event: HttpEvent<any>) => {
-            // if (event instanceof HttpResponse) {
-            //   console.log('event--->>>', event);
-            // }
-            this.hideLoader();
-            return event;
+        return from(this.loadingController.create()).pipe(
+          tap((loading) => {
+            return loading.present();
           }),
-          catchError((error: HttpErrorResponse) => {
-            console.error(error);
-            this.hideLoader();
-            return throwError(error);
+          switchMap((loading) => {
+            return next.handle(request).pipe(
+              finalize(() => {
+                loading.dismiss();
+              }),
+              catchError((error: HttpErrorResponse) => {
+                console.error(error);
+                this.loadingController.dismiss();
+                return throwError(error);
+              })
+            );
           })
         );
+        // this.showLoader();
+        // return next.handle(request).pipe(
+        //   map((event: HttpEvent<any>) => {
+        //     // if (event instanceof HttpResponse) {
+        //     //   console.log('event--->>>', event);
+        //     // }
+        //     return event;
+        //   }),
+        //   catchError((error: HttpErrorResponse) => {
+        //     console.error(error);
+        //     this.hideLoader();
+        //     return throwError(error);
+        //   })
+        // );
       })
     );
-  }
-
-  async showLoader() {
-    this.loaderToShow = await this.loadingController.create({
-      message: 'Loading..',
-      translucent: true,
-      duration: 1000,
-    });
-    await this.loaderToShow.present();
-  }
-
-  async hideLoader() {
-    if (this.loaderToShow) {
-      await this.loadingController.dismiss();
-      this.loaderToShow = null;
-    }
   }
 }

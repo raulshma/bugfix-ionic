@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { Bug } from '@shared/models/admin/bugs.model';
 
 const routes = {
-  GET_BUG: (id: number) => `/bugs/${id}`,
-  GET_ALL_BUGS: '/bugs',
+  GET_BUG: (id: number) => `/bugs/${id}/?related_data=1`,
+  GET_ALL_BUGS: '/bugs/?related_data=2',
   POST_BUG: '/bugs',
   PUT_BUG: '/bugs',
   DELETE_BUG: (id: number) => `/bugs/${id}`,

@@ -29,7 +29,7 @@
                 <ion-item class="ion-margin-bottom">
                   <ion-label position="floating">Description</ion-label>
                   <ion-textarea
-                    rows="6"
+                    rows="10"
                     formControlName="description"
                     placeholder="Enter description here..."
                   ></ion-textarea>
@@ -80,7 +80,7 @@
                 <ion-button
                   size="large"
                   type="submit"
-                  color="tertiary"
+                  color="primary"
                   [disabled]="myForm.invalid || myForm.untouched"
                   expand="block"
                   >{{ action === 'Add' ? 'Save' : 'Update' }}</ion-button

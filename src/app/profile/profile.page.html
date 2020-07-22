@@ -4,6 +4,55 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-</ion-content>
+<ng-container *ngIf="userData">
+  <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-segment [(ngModel)]="colorMode" (ionChange)="modeChanged($event)">
+        <ion-segment-button value="Light">
+          <ion-icon name="sunny-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="Dark">
+          <ion-icon name="moon"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-card>
+    <div class="profile--image">
+      <img [src]="userData.avatar" />
+    </div>
+    <form #form="ngForm" (ngSubmit)="updateAvatar(form)">
+      <div class="profile--input ion-margin-vertical">
+        <ion-item>
+          <ion-buttons slot="end">
+            <ion-button
+              type="submit"
+              class="avatar-upload"
+              size="medium"
+              [disabled]="form.invalid"
+            >
+              <ion-icon name="arrow-up-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-label position="floating">Avatar URL</ion-label>
+          <ion-input
+            clearInput
+            required
+            name="avatar"
+            ngModel
+            [pattern]="HTTPS_URL"
+            (change)="tempUpdate(form.value)"
+          ></ion-input>
+        </ion-item>
+      </div>
+    </form>
+  </ion-content>
+</ng-container>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="chevron-up-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button (click)="logout()"
+      ><ion-icon name="log-out-outline"></ion-icon
+    ></ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

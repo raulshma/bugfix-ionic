@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../auth/user';
 
 const routes = {
-  UPDATE_AVATAR: `/profile/updateavatar`,
+  UPDATE_AVATAR: `/users/update/avatar`,
 };
 
 @Injectable({
