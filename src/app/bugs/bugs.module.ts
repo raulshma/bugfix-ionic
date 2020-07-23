@@ -9,6 +9,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
 
 import { BugsPage } from './bugs.page';
 import { AddEditBugsComponent } from './add-edit/add-edit.component';
+import { AddFixComponent } from './add-fix/add-fix.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { AddEditBugsComponent } from './add-edit/add-edit.component';
     IonicSelectableModule,
     BugsPageRoutingModule,
   ],
-  declarations: [BugsPage, AddEditBugsComponent],
+  declarations: [BugsPage, AddEditBugsComponent, AddFixComponent],
 })
 export class BugsPageModule {}

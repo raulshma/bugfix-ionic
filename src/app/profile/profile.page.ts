@@ -15,6 +15,8 @@ import { ProfileService } from './profile.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  defaultImage: string = 'assets/images/placeholder-avatar.png';
+
   colorMode: string = 'Light';
   userData: User = null;
   HTTPS_URL: RegExp = HTTPS_URL;
@@ -49,6 +51,11 @@ export class ProfilePage implements OnInit {
   async modeChanged(event: any) {
     await this.storage.set('COLOR_MODE', this.colorMode);
     this.setMode();
+  }
+
+  async doRefresh(event: any) {
+    this.ngOnInit();
+    event.target.complete();
   }
 
   updateAvatar(form: NgForm) {

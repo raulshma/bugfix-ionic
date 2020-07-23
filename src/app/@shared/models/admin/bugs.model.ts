@@ -1,3 +1,4 @@
+import { Fix } from '../fix.model';
 import { Tech } from './technologies.model';
 
 export interface Bug {
@@ -14,4 +15,5 @@ export interface Bug {
   updated_at: Date;
   deleted_at: Date;
   tech: Tech;
+  fix: Fix[];
 }

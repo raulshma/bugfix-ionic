@@ -13,14 +13,15 @@ form {
 ion-grid {
   height: 100%;
   display: flex;
+  padding: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   ion-row {
     width: 100%;
     ion-col {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0rem;
+      padding-right: 0rem;
     }
   }
 }
@@ -30,18 +31,6 @@ ion-item {
   --inner-padding-end: 0;
 }
 form {
-  background: #e0eafc; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #cfdef3,
-    #e0eafc
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #cfdef3,
-    #e0eafc
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
   ion-item {
     --ion-background-color: transparent !important;
   }

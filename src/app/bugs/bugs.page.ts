@@ -93,8 +93,12 @@ export class BugsPage implements OnInit, OnDestroy {
     } = await modal.onWillDismiss();
     if (data !== null)
       if (isSuccess) {
-        this.filteredBugs.push(data);
-        this.filteredBugs = [...this.filteredBugs];
+        // this.filteredBugs.push(data);
+        // this.filteredBugs = [...this.filteredBugs];
+        await this.bugService.getAll().subscribe((data: Bug[]) => {
+          this.bugs = data;
+          this.filteredBugs = [...this.bugs];
+        });
         await this.toast('Added');
       } else {
         await this.toast('Failed');

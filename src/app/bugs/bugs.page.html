@@ -22,7 +22,6 @@
   <ion-item color="light">
     <ion-label>Tech</ion-label>
     <ionic-selectable
-      
       (onChange)="filterChanged($event.value)"
       [disabled]="bugs && bugs.length <= 0"
       [(ngModel)]="filterValue"
@@ -47,8 +46,9 @@
               <ion-card-subtitle
                 ><ion-badge [color]="item.is_fixed?'success':'danger'"
                   >{{item.is_fixed?'Fixed':'Open'}}</ion-badge
-                ></ion-card-subtitle
-              >
+                >
+                <ion-badge color="dark">{{item.tech.name}}</ion-badge>
+              </ion-card-subtitle>
               <ion-card-title>
                 <div class="heading">
                   <h1 [routerLink]="['/tabs/bugs',item.id]">{{item.title}}</h1>
