@@ -1,0 +1,68 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="tabs/bugs"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="bug">{{bug.title.toUpperCase()}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ng-container *ngIf="bug">
+  <ion-content [fullscreen]="true">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="Refreshing..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
+    <img [defaultImage]="defaultImage" [lazyLoad]="bug.image" />
+    <ion-card class="details">
+      <ion-card-header>{{bug.title.toUpperCase()}}</ion-card-header>
+      <ion-card-subtitle
+        ><ion-badge [color]="bug.is_fixed?'success':'danger'"
+          >{{bug.is_fixed?'Fixed':'Open'}}</ion-badge
+        >
+        <ion-badge color="dark">{{bug.tech.name}}</ion-badge></ion-card-subtitle
+      >
+      <ion-card-content>
+        {{bug.description}}
+      </ion-card-content>
+    </ion-card>
+    <ng-container *ngIf="bug.fix.length > 0">
+      <ion-item color="medium" class="fix--title">
+        <h1 slot="start">FIXES</h1>
+      </ion-item>
+      <ion-card class="fix" *ngFor="let fix of bug.fix">
+        <ion-card-header>
+          <ion-card-title>
+            <div class="heading">
+              <h1>{{fix.title | titlecase}}</h1>
+              <div *ngIf="fix.user_id === userData.id">
+                <ion-icon
+                  (click)="delete(fix.id)"
+                  name="trash-outline"
+                ></ion-icon>
+                <ion-icon (click)="edit(fix)" name="create-outline"></ion-icon>
+              </div></div
+          ></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{fix.description}}
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button (click)="addFix(bug.id)"
+          ><ion-icon name="arrow-undo-outline"></ion-icon
+        ></ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  </ion-content>
+</ng-container>

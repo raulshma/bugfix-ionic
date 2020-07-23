@@ -10,6 +10,7 @@ const proxyConfig = [
     context: '/api',
     pathRewrite: { '^/api': '' },
     target: process.env.production ? 'https://api.raulshma.xyz/api/v1' : 'http://localhost:1337/api/v1',
+    // target: 'https://api.raulshma.xyz/api/v1',
     changeOrigin: true,
     secure: false,
   },

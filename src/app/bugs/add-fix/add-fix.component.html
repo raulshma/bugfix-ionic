@@ -1,0 +1,58 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{ action == 'Add' ? 'Add Fix' : 'Update Fix' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="myForm" (submit)="saveForm()">
+    <ion-card>
+      <ion-card-content class="ion-no-padding">
+        <ion-grid>
+          <ion-row justify-content-center align-items-center>
+            <ion-col
+              align-self-center
+              size-md="6"
+              offset-md="3"
+              size-lg="6"
+              offset-lg="3"
+              size-xs="12"
+            >
+              <div padding>
+                <ion-item class="ion-margin-bottom">
+                  <ion-label position="floating">Title</ion-label>
+                  <ion-input type="string" formControlName="title"></ion-input>
+                </ion-item>
+                <ion-item class="ion-margin-bottom">
+                  <ion-label position="floating">Description</ion-label>
+                  <ion-textarea
+                    rows="10"
+                    formControlName="description"
+                    placeholder="Enter description here..."
+                  ></ion-textarea>
+                </ion-item>
+                <ion-item class="ion-margin-bottom">
+                  <ion-label position="floating">Image URL</ion-label>
+                  <ion-input type="string" formControlName="image"></ion-input>
+                </ion-item>
+              </div>
+              <div padding>
+                <ion-button
+                  size="large"
+                  type="submit"
+                  color="primary"
+                  [disabled]="myForm.invalid || myForm.untouched"
+                  expand="block"
+                  >{{ action === 'Add' ? 'Save' : 'Update' }}</ion-button
+                >
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

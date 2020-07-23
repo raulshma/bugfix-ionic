@@ -10,40 +10,44 @@
           offset-lg="3"
           size-xs="12"
         >
-          <div class="ion-text-center">
-            <h1>LOGIN</h1>
-          </div>
-          <div>
-            <ion-item class="ion-margin-bottom">
-              <ion-label position="floating">Email</ion-label>
-              <ion-input
-                name="email"
-                type="email"
-                ngModel
-                required
-                [pattern]="validateEmail"
-              ></ion-input>
-            </ion-item>
-            <ion-item class="ion-margin-bottom">
-              <ion-label position="floating">Password</ion-label>
-              <ion-input
-                name="password"
-                type="password"
-                ngModel
-                required
-              ></ion-input>
-            </ion-item>
-          </div>
-          <div>
-            <ion-button
-              size="large"
-              type="submit"
-              color="tertiary"
-              [disabled]="form.invalid || form.untouched"
-              expand="block"
-              >Login</ion-button
-            >
-          </div>
+          <ion-card>
+            <ion-card-content>
+              <div class="ion-text-center">
+                <h1>LOGIN</h1>
+              </div>
+              <div>
+                <ion-item class="ion-margin-bottom">
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input
+                    name="email"
+                    type="email"
+                    ngModel
+                    required
+                    [pattern]="validateEmail"
+                  ></ion-input>
+                </ion-item>
+                <ion-item class="ion-margin-bottom">
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input
+                    name="password"
+                    type="password"
+                    ngModel
+                    required
+                  ></ion-input>
+                </ion-item>
+              </div>
+              <div>
+                <ion-button
+                  size="large"
+                  type="submit"
+                  color="secondary"
+                  [disabled]="form.invalid || form.untouched"
+                  expand="block"
+                  >Login</ion-button
+                >
+              </div>
+            </ion-card-content>
+          </ion-card>
         </ion-col>
       </ion-row>
       <ion-row class="center-flex">

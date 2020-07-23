@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ToastController } from '@ionic/angular';
+import { IonRouterOutlet, Platform, ToastController } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+const { App } = Plugins;
 
 import { VALIDATE_EMAIL } from '@shared/regex/email.regex';
 import { AuthService } from '../auth.service';
@@ -17,17 +19,25 @@ export class LoginPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    public toastController: ToastController
-  ) {}
+    public toastController: ToastController,
+    private platform: Platform,
+    private routerOutlet: IonRouterOutlet
+  ) {
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      if (!this.routerOutlet.canGoBack()) {
+        App.exitApp();
+      }
+    });
+  }
 
   ngOnInit() {
-    if (this.authService.isLoggedIn()) this.router.navigateByUrl('');
+    if (this.authService.isLoggedIn()) this.router.navigateByUrl('tabs/bugs');
   }
 
   login(form) {
     this.authService.login(form.value).subscribe(
       (res) => {
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('tabs/bugs');
       },
       async (error) => await this.failed()
     );

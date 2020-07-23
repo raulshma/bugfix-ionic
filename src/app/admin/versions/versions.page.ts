@@ -11,7 +11,7 @@ import { untilDestroyed } from '@core';
 import { Version_M } from '@shared/models/admin/versions.model';
 
 import { AdminService } from '../admin.service';
-import { AddEditComponent } from './add-edit/add-edit.component';
+import { AddEditVersionsComponent } from './add-edit/add-edit.component';
 
 @Component({
   selector: 'app-versions',
@@ -35,7 +35,7 @@ export class VersionsPage implements OnInit, OnDestroy {
 
   async add() {
     const modal = await this.modalController.create({
-      component: AddEditComponent,
+      component: AddEditVersionsComponent,
       cssClass: 'addedit--versions',
       componentProps: { data: null, action: 'Add' },
     });
@@ -54,7 +54,7 @@ export class VersionsPage implements OnInit, OnDestroy {
 
   async edit(item: Version_M) {
     const modal = await this.modalController.create({
-      component: AddEditComponent,
+      component: AddEditVersionsComponent,
       cssClass: 'addedit--versions',
       componentProps: { data: item, action: 'Edit' },
     });

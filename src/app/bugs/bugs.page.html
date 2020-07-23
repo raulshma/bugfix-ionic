@@ -1,0 +1,75 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="add()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Bugs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-item color="light">
+    <ion-label>Tech</ion-label>
+    <ionic-selectable
+      (onChange)="filterChanged($event.value)"
+      [disabled]="bugs && bugs.length <= 0"
+      [(ngModel)]="filterValue"
+      interface="item-content"
+      itemValueField="id"
+      itemTextField="name"
+      [items]="tech"
+      [hasVirtualScroll]="true"
+      [canSearch]="true"
+    >
+    </ionic-selectable>
+  </ion-item>
+  <ion-grid>
+    <ion-virtual-scroll [items]="filteredBugs" approxItemHeight="409px">
+      <ion-row *virtualItem="let item;">
+        <ion-col>
+          <ion-card
+            [style]="!item.is_fixed?'border-top: 1px solid #ff9b99':'border-top: 1px solid #00985b'"
+          >
+            <!-- <ion-img [src]="item.image"></ion-img> -->
+            <ion-card-header>
+              <ion-card-subtitle
+                ><ion-badge [color]="item.is_fixed?'success':'danger'"
+                  >{{item.is_fixed?'Fixed':'Open'}}</ion-badge
+                >
+                <ion-badge color="dark">{{item.tech.name}}</ion-badge>
+              </ion-card-subtitle>
+              <ion-card-title>
+                <div class="heading">
+                  <h1 [routerLink]="['/tabs/bugs',item.id]">{{item.title}}</h1>
+                  <div>
+                    <ion-icon
+                      (click)="delete(item.id)"
+                      name="trash-outline"
+                    ></ion-icon>
+                    <ion-icon
+                      (click)="edit(item)"
+                      name="create-outline"
+                    ></ion-icon>
+                  </div></div
+              ></ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              {{item.description}}
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-virtual-scroll>
+  </ion-grid>
+</ion-content>

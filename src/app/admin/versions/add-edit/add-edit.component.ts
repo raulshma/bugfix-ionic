@@ -19,7 +19,7 @@ import { AdminService } from '../../admin.service';
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.scss'],
 })
-export class AddEditComponent implements OnInit {
+export class AddEditVersionsComponent implements OnInit {
   myForm: FormGroup;
   releaseTypes = PreReleaseTypes;
 
@@ -33,7 +33,7 @@ export class AddEditComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  dismiss(res: Version_M) {
+  dismiss(res: Version_M = null) {
     let data = {
       action: this.action,
       isSuccess: this.isSuccess,
