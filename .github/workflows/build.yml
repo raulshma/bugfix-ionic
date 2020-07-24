@@ -35,12 +35,6 @@ jobs:
       - name: Build Android Dev APK
         run: ionic cordova build android
 
-      - name: Upload dev APK
-        uses: actions/upload-artifact@v1
-        with:
-          name: app-dev
-          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
-
       - name: Build Android Release APK
         run: ionic cordova build android --release --prod
 
@@ -49,7 +43,13 @@ jobs:
         run: ./gradlew bundle
 
       - name: Upload release bundle
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: app-release
           path: platforms/android/app/build/outputs/bundle/release/app.aab
+
+      - name: Upload dev APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-dev
+          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
