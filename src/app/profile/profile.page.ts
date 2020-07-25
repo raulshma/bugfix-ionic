@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { untilDestroyed } from '@core';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { Country } from '@shared/models/admin/countries.model';
+import { USER_DETAILS } from '@shared/models/profile.model';
 import { HTTPS_URL } from '@shared/regex/httpsurl.regex';
+import { AdminService } from '../admin/admin.service';
 
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/user';
@@ -14,7 +18,11 @@ import { ProfileService } from './profile.service';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
+  detailsForm: FormGroup;
+
+  countriesList: Country[] = [];
+
   defaultImage: string = 'assets/images/placeholder-avatar.png';
 
   colorMode: string = 'Light';
@@ -25,7 +33,8 @@ export class ProfilePage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private profileService: ProfileService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private fb: FormBuilder
   ) {}
 
   async ngOnInit() {
@@ -38,6 +47,25 @@ export class ProfilePage implements OnInit {
     } else {
       this.colorMode = 'Light';
     }
+    this.countriesList = await this.getCountries();
+    this.getUserDetails(this.userData.id);
+    this.detailsForm = this.initiateForm();
+  }
+
+  getUserDetails(id: number): void {
+    const $details = this.profileService.getUser(id);
+    $details.pipe(untilDestroyed(this)).subscribe((data: USER_DETAILS) => {
+      this.detailsForm.patchValue({
+        id: data.id,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        country_id: this.countriesList.find((e) => e.id == data.country_id),
+      });
+    });
+  }
+
+  async getCountries(): Promise<Country[]> {
+    return await this.storage.get('COUNTRIES');
   }
 
   async logout() {
@@ -54,7 +82,7 @@ export class ProfilePage implements OnInit {
   }
 
   async doRefresh(event: any) {
-    this.ngOnInit();
+    await this.ngOnInit();
     event.target.complete();
   }
 
@@ -62,7 +90,7 @@ export class ProfilePage implements OnInit {
     if (form.valid) {
       this.profileService
         .updateAvatar({
-          ...this.userData,
+          id: this.userData.id,
           avatar: form.value.avatar,
         })
         .subscribe(
@@ -72,6 +100,24 @@ export class ProfilePage implements OnInit {
             this.toast('Avatar Updated');
           },
           (error) => this.toast('Failed to Update Avatar')
+        );
+    }
+  }
+
+  updateDetails() {
+    if (this.detailsForm.valid) {
+      this.profileService
+        .updateDetails({
+          id: this.userData.id,
+          first_name: this.detailsForm.value.first_name,
+          last_name: this.detailsForm.value.last_name,
+          country_id: this.detailsForm.value.country_id.id,
+        })
+        .subscribe(
+          (res) => {
+            this.toast('Details Updated');
+          },
+          (error) => this.toast('Failed to Update Details')
         );
     }
   }
@@ -94,4 +140,14 @@ export class ProfilePage implements OnInit {
     });
     toast.present();
   }
+  private initiateForm() {
+    return this.fb.group({
+      id: this.userData.id,
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      country_id: [Validators.required],
+    });
+  }
+
+  ngOnDestroy(): void {}
 }

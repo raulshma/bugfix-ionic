@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { untilDestroyed } from '@core';
+import { Storage } from '@ionic/storage';
 
 import { Country } from '@shared/models/admin/countries.model';
 
@@ -12,17 +13,14 @@ import { AdminService } from '../admin.service';
 })
 export class CountriesPage implements OnInit {
   countriesList: Country[] = [];
-  constructor(private adminService: AdminService) {}
+  constructor(private storage: Storage) {}
 
-  ngOnInit(): void {
-    this.getCountries();
+  async ngOnInit(): Promise<void> {
+    this.countriesList = await this.getCountries();
   }
   ngOnDestroy(): void {}
 
-  getCountries() {
-    const $countries = this.adminService.getAllCountries();
-    $countries.pipe(untilDestroyed(this)).subscribe((data: Country[]) => {
-      this.countriesList = data;
-    });
+  async getCountries(): Promise<Country[]> {
+    return await this.storage.get('COUNTRIES');
   }
 }

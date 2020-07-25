@@ -53,6 +53,50 @@
         </ion-item>
       </div>
     </form>
+    <ng-container *ngIf="detailsForm">
+      <div class="details--title">
+        <ion-toolbar color="light">
+          <ion-title>DETAILS</ion-title>
+        </ion-toolbar>
+      </div>
+      <form [formGroup]="detailsForm" (submit)="updateDetails()">
+        <ion-item>
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input
+            clearInput
+            required
+            formControlName="first_name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input
+            required
+            clearInput
+            formControlName="last_name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Country</ion-label>
+          <ionic-selectable
+            required
+            formControlName="country_id"
+            interface="item-content"
+            itemValueField="id"
+            itemTextField="name"
+            [items]="countriesList"
+            [hasVirtualScroll]="true"
+            [canSearch]="true"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <div class="submit">
+          <ion-button type="submit">
+            Update
+          </ion-button>
+        </div>
+      </form>
+    </ng-container>
   </ion-content>
 </ng-container>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">

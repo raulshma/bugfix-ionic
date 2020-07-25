@@ -176,9 +176,7 @@ export class BugsPage implements OnInit, OnDestroy {
   }
 
   async doRefresh(event: any) {
-    await this.bugService.getAll().subscribe((data: Bug[]) => {
-      this.bugs = data;
-      this.filteredBugs = this.bugs;
+    await Promise.all([this.getBugs(), this.getVersions()]).then((e) => {
       event.target.complete();
     });
   }
