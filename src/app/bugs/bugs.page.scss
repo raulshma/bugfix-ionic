@@ -24,6 +24,17 @@ ion-card {
       margin-top: 2px !important;
       font-size: 1.2rem;
       font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      &:active,
+      &:focus {
+        outline-style: none;
+        -moz-outline-style: none;
+      }
+    }
+    div {
+      min-width: 3rem;
     }
     ion-icon {
       font-size: 1.2rem;

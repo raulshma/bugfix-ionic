@@ -13,7 +13,7 @@ import { BugsService } from '../bugs.service';
 
 import { Bug } from '@shared/models/admin/bugs.model';
 import { AddFixComponent } from '../add-fix/add-fix.component';
-import { Fix } from '@shared/models/fix.model';
+import { Fix, UPDOWN_VOTES } from '@shared/models/fix.model';
 
 @Component({
   selector: 'app-bug-details',
@@ -57,6 +57,19 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     await this.bugService.get(id).subscribe((data: Bug) => {
       this.bug = data[0];
       if (!this.bug.image) this.bug.image = this.defaultImage;
+    });
+  }
+
+  async updownVote(id: number, isUpvote: boolean) {
+    const data: UPDOWN_VOTES = {
+      id,
+      isUpvote,
+    };
+    await this.bugService.updownVotesFix(data).subscribe((e) => {
+      const bug = this.bug;
+      const fix = this.bug.fix.find((e) => e.id == id);
+      fix.votes = isUpvote ? fix.votes + 1 : fix.votes - 1;
+      this.bug = bug;
     });
   }
 

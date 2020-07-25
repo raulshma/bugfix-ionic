@@ -38,6 +38,27 @@
       <ion-card class="fix" *ngFor="let fix of bug.fix">
         <ion-card-header>
           <ion-card-title>
+            <div class="votes">
+              <div class="votes--updown">
+                <button
+                  [disabled]="bug.user_id===userData.id"
+                  (click)="updownVote(fix.id,true)"
+                >
+                  👍
+                  <ion-ripple-effect></ion-ripple-effect>
+                </button>
+                <button
+                  [disabled]="bug.user_id===userData.id"
+                  (click)="updownVote(fix.id,false)"
+                >
+                  👎
+                  <ion-ripple-effect></ion-ripple-effect>
+                </button>
+              </div>
+              <div class="votes--number">
+                {{fix.votes | number : '1.0-0'}}
+              </div>
+            </div>
             <div class="heading">
               <h1>{{fix.title | titlecase}}</h1>
               <div *ngIf="fix.user_id === userData.id">

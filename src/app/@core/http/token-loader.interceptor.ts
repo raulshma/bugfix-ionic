@@ -44,7 +44,7 @@ export class HttpTokenLoadingInterceptor implements HttpInterceptor {
             headers: request.headers.set('Content-Type', 'application/json'),
           });
         }
-
+        if (request.url.match(/\/fixes\/vote\w+/)) return next.handle(request);
         return from(this.loadingController.create()).pipe(
           tap((loading) => {
             return loading.present();

@@ -7,3 +7,9 @@ export interface Fix {
   bug_id: number;
   user_id: number;
 }
+
+
+export interface UPDOWN_VOTES {
+  id: number;
+  isUpvote: boolean;
+}

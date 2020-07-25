@@ -93,8 +93,6 @@ export class BugsPage implements OnInit, OnDestroy {
     } = await modal.onWillDismiss();
     if (data !== null)
       if (isSuccess) {
-        // this.filteredBugs.push(data);
-        // this.filteredBugs = [...this.filteredBugs];
         await this.bugService.getAll().subscribe((data: Bug[]) => {
           this.bugs = data;
           this.filteredBugs = [...this.bugs];
@@ -125,10 +123,7 @@ export class BugsPage implements OnInit, OnDestroy {
     } = await modal.onWillDismiss();
     if (data !== null)
       if (isSuccess) {
-        const idx = this.filteredBugs.findIndex((e) => e.id === data.id);
-        this.filteredBugs[idx] = data;
-        this.filteredBugs = [...this.filteredBugs];
-        await this.toast('Updated');
+        await this.getBugs();
       } else {
         await this.toast('Failed');
       }
