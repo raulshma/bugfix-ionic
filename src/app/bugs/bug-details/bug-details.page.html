@@ -41,22 +41,22 @@
             <div class="votes">
               <div class="votes--updown">
                 <button
-                  [disabled]="bug.user_id===userData.id"
+                  [disabled]="hasUpvoted(fix)"
                   (click)="updownVote(fix.id,true)"
                 >
                   👍
                   <ion-ripple-effect></ion-ripple-effect>
                 </button>
+                <div class="votes--number">
+                  {{calcVotes(fix.votes)}}
+                </div>
                 <button
-                  [disabled]="bug.user_id===userData.id"
+                  [disabled]="hasUpvoted(fix)"
                   (click)="updownVote(fix.id,false)"
                 >
                   👎
                   <ion-ripple-effect></ion-ripple-effect>
                 </button>
-              </div>
-              <div class="votes--number">
-                {{fix.votes | number : '1.0-0'}}
               </div>
             </div>
             <div class="heading">

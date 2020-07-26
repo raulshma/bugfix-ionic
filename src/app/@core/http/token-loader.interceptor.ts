@@ -55,7 +55,6 @@ export class HttpTokenLoadingInterceptor implements HttpInterceptor {
                 loading.dismiss();
               }),
               catchError((error: HttpErrorResponse) => {
-                console.error(error);
                 this.loadingController.dismiss();
                 return throwError(error);
               })
