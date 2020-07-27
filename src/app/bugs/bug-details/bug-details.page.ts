@@ -166,6 +166,14 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     return false;
   }
 
+  isUpvote(fix: Fix): Boolean {
+    const vote = fix.votes_fix.find(
+      (e: Votes_Fix) => e.user_id == this.userData.id
+    );
+    if (vote) return vote.is_upvote;
+    return false;
+  }
+
   calcVotes(votes: number) {
     if (!votes) return 0;
     return Math.round(votes);
