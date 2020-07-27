@@ -28,7 +28,9 @@
         <ion-badge color="dark">{{bug.tech.name}}</ion-badge></ion-card-subtitle
       >
       <ion-card-content>
-        {{bug.description}}
+        <div markdown ngPreserveWhitespaces [data]="bug.description">
+        </div>
+        
       </ion-card-content>
     </ion-card>
     <ng-container *ngIf="bug.fix.length > 0">
