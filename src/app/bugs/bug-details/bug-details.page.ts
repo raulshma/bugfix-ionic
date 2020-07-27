@@ -75,7 +75,6 @@ export class BugDetailsPage implements OnInit, OnDestroy {
   }
 
   async addFix(bugId: number) {
-    console.log(this.userData.id, bugId);
     const modal = await this.modalController.create({
       component: AddFixComponent,
       cssClass: 'addfix--bugs',

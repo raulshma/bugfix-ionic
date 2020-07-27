@@ -65,7 +65,7 @@ export class AddFixComponent implements OnInit {
       description: ['', Validators.required],
       user_id: [this.extras.id, Validators.required],
       bug_id: [this.extras.bugId, Validators.required],
-      votes: [],
+      votes: [0],
       image: [''],
     });
     if (type === 'Edit') {
