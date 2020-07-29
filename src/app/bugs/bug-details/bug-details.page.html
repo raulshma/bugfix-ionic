@@ -28,7 +28,7 @@
         <ion-badge color="dark">{{bug.tech.name}}</ion-badge></ion-card-subtitle
       >
       <ion-card-content>
-        {{bug.description}}
+        <div markdown ngPreserveWhitespaces [data]="bug.description"></div>
       </ion-card-content>
     </ion-card>
     <ng-container *ngIf="bug.fix.length > 0">
@@ -41,22 +41,24 @@
             <div class="votes">
               <div class="votes--updown">
                 <button
-                  [disabled]="bug.user_id===userData.id"
+                  [disabled]="hasUpvoted(fix)"
+                  [style.color]="isUpvote(fix)?'#29c467':''"
                   (click)="updownVote(fix.id,true)"
                 >
-                  👍
+                  <ion-icon name="caret-up-outline"></ion-icon>
                   <ion-ripple-effect></ion-ripple-effect>
                 </button>
+                <div class="votes--number">
+                  {{calcVotes(fix.votes)}}
+                </div>
                 <button
-                  [disabled]="bug.user_id===userData.id"
+                  [disabled]="hasUpvoted(fix)"
+                  [style.color]="!isUpvote(fix)?'#29c467':''"
                   (click)="updownVote(fix.id,false)"
                 >
-                  👎
+                  <ion-icon name="caret-down-outline"></ion-icon>
                   <ion-ripple-effect></ion-ripple-effect>
                 </button>
-              </div>
-              <div class="votes--number">
-                {{fix.votes | number : '1.0-0'}}
               </div>
             </div>
             <div class="heading">

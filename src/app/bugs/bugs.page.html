@@ -52,7 +52,7 @@
               <ion-card-title>
                 <div class="heading">
                   <h1 [routerLink]="['/tabs/bugs',item.id]">{{item.title}}</h1>
-                  <div>
+                  <div *ngIf="item.user_id==userData.id">
                     <ion-icon
                       (click)="delete(item.id)"
                       name="trash-outline"

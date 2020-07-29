@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { MarkdownModule } from 'ngx-markdown';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-
 import { BugDetailsPageRoutingModule } from './bug-details-routing.module';
 
 import { BugDetailsPage } from './bug-details.page';
@@ -16,6 +16,7 @@ import { BugDetailsPage } from './bug-details.page';
     FormsModule,
     IonicModule,
     LazyLoadImageModule,
+    MarkdownModule.forChild(),
     BugDetailsPageRoutingModule
   ],
   declarations: [BugDetailsPage]

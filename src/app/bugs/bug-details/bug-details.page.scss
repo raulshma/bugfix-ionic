@@ -28,16 +28,22 @@ ion-card-title {
 .votes {
   display: flex;
   padding-right: 1rem;
+  padding-left: 0.8rem;
   font-size: 1rem;
   .votes--updown {
     display: flex;
     flex-direction: column;
     button {
+      padding: 0;
+      font-size: 1.2rem;
       background-color: transparent;
       &:active,
       &:focus {
         outline-style: none;
         -moz-outline-style: none;
+      }
+      &:disabled {
+        opacity: 0.5;
       }
     }
   }
@@ -45,7 +51,6 @@ ion-card-title {
     padding-left: 0;
     text-align: center;
     align-self: center;
-    color: var(--ion-color-medium);
   }
 }
 
@@ -56,10 +61,10 @@ ion-card.fix {
     margin-bottom: 4.5rem;
   }
   ion-card-header {
-    padding: 10px 10px 3px 10px;
+    padding: 10px 10px 3px 0px;
   }
   ion-card-content {
-    padding: 0px 10px 3px 10px;
+    padding: 0px 10px 3px 1rem;
   }
   ion-card-subtitle {
     display: flex;

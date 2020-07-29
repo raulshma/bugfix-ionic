@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {
@@ -13,7 +13,7 @@ import { BugsService } from '../bugs.service';
 
 import { Bug } from '@shared/models/admin/bugs.model';
 import { AddFixComponent } from '../add-fix/add-fix.component';
-import { Fix, UPDOWN_VOTES } from '@shared/models/fix.model';
+import { Fix, Votes_Fix, VOTES_POST } from '@shared/models/fix.model';
 
 @Component({
   selector: 'app-bug-details',
@@ -33,7 +33,8 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     public modalController: ModalController,
     private alertController: AlertController,
     private storage: Storage,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private cdr: ChangeDetectorRef
   ) {}
   ngOnDestroy(): void {}
 
@@ -60,21 +61,20 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     });
   }
 
-  async updownVote(id: number, isUpvote: boolean) {
-    const data: UPDOWN_VOTES = {
-      id,
-      isUpvote,
+  async updownVote(id: number, is_upvote: boolean) {
+    const data: VOTES_POST = {
+      is_upvote,
+      fix_id: id,
+      user_id: this.userData.id,
     };
     await this.bugService.updownVotesFix(data).subscribe((e) => {
-      const bug = this.bug;
-      const fix = this.bug.fix.find((e) => e.id == id);
-      fix.votes = isUpvote ? fix.votes + 1 : fix.votes - 1;
-      this.bug = bug;
+      const fix = this.bug.fix.find((b) => b.id == id);
+      fix.votes = is_upvote ? fix.votes + 1 : fix.votes - 1;
+      this.cdr.detectChanges();
     });
   }
 
   async addFix(bugId: number) {
-    console.log(this.userData.id, bugId);
     const modal = await this.modalController.create({
       component: AddFixComponent,
       cssClass: 'addfix--bugs',
@@ -155,6 +155,28 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     });
 
     await alert.present();
+  }
+
+  hasUpvoted(fix: Fix): Boolean {
+    if (fix.user_id === this.userData.id) return true;
+    const vote = fix.votes_fix.find(
+      (e: Votes_Fix) => e.user_id == this.userData.id
+    );
+    if (vote) return vote.is_upvote;
+    return false;
+  }
+
+  isUpvote(fix: Fix): Boolean {
+    const vote = fix.votes_fix.find(
+      (e: Votes_Fix) => e.user_id == this.userData.id
+    );
+    if (vote) return vote.is_upvote;
+    return false;
+  }
+
+  calcVotes(votes: number) {
+    if (!votes) return 0;
+    return Math.round(votes);
   }
 
   async toast(message: string) {

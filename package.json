@@ -41,6 +41,7 @@
     "ionic-selectable": "^4.7.1",
     "lodash": "^4.17.19",
     "ng-lazyload-image": "^8.0.1",
+    "ngx-markdown": "^10.1.0",
     "rxjs": "~6.5.1",
     "save-dev": "0.0.1-security",
     "tslib": "^1.10.0",
@@ -105,5 +106,6 @@
     "platforms": [
       "android"
     ]
-  }
+  },
+  "license": "MIT"
 }

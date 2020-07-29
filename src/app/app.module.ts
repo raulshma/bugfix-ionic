@@ -11,6 +11,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { MarkdownModule } from 'ngx-markdown';
 
 //Modules
 import { CoreModule } from '@core';
@@ -32,6 +33,7 @@ import { AppComponent } from './app.component';
     IonicModule.forRoot(),
     AuthModule,
     CoreModule,
+    MarkdownModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
   ],

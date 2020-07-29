@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Bug } from '@shared/models/admin/bugs.model';
-import { Fix, UPDOWN_VOTES } from '@shared/models/fix.model';
+import { Fix, VOTES_POST } from '@shared/models/fix.model';
 
 const routes = {
   GET_BUG: (id: number) => `/bugs/${id}/?related_data=1`,
@@ -14,7 +14,7 @@ const routes = {
   PUT_FIX: '/fixes',
   DELETE_BUG: (id: number) => `/bugs/${id}`,
   DELETE_FIX: (id: number) => `/fixes/${id}`,
-  FIX_VOTES: `/fixes/votes`,
+  POST_FIX_VOTES: `/votes/fix`,
 };
 
 @Injectable({
@@ -104,11 +104,11 @@ export class BugsService {
 
   /**
    * Upvote and downvote fix
-   * @param {UPDOWN_VOTES} data
+   * @param {VOTES_POST} data
    * @returns {Observable<Number>}
    * @memberof BugsService
    */
-  updownVotesFix(data: UPDOWN_VOTES): Observable<Number> {
-    return this.httpClient.put<Number>(routes.FIX_VOTES, data);
+  updownVotesFix(data: VOTES_POST): Observable<Number> {
+    return this.httpClient.post<Number>(routes.POST_FIX_VOTES, data);
   }
 }
