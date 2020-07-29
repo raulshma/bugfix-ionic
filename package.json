@@ -106,5 +106,6 @@
     "platforms": [
       "android"
     ]
-  }
+  },
+  "license": "MIT"
 }

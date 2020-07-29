@@ -33,11 +33,10 @@ export class AuthenticationGuard implements CanActivate, OnDestroy {
     // return true;
     if (this.authService.isLoggedIn()) return true;
     log.debug('Not authenticated, redirecting and adding redirect url...');
-    // this.navController.navigateRoot('/login', {
-    //   queryParams: { redirect: state.url },
-    //   replaceUrl: true,
-    // });
-    window.location.reload(); 
+    this.navController.navigateRoot('/login', {
+      queryParams: { redirect: state.url },
+      replaceUrl: true,
+    });
     return false;
   }
 }
