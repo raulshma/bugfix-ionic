@@ -29,3 +29,38 @@
   align-items: center;
   justify-content: center;
 }
+
+.votes {
+  display: flex;
+  // padding-right: 1rem;
+  // padding-left: 0.8rem;
+  font-size: 1rem;
+  .votes--updown {
+    display: flex;
+    flex-direction: column;
+    button {
+      padding: 0;
+      font-size: 1.2rem;
+      background-color: transparent;
+      &:active,
+      &:focus {
+        outline-style: none;
+        -moz-outline-style: none;
+      }
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+  .votes--number {
+    padding-left: 0;
+    text-align: center;
+    align-self: center;
+  }
+}
+
+.redirectText {
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}

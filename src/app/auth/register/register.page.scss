@@ -1,6 +1,9 @@
 h1 {
   font-size: 2.2rem;
   letter-spacing: 0.5rem;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--ion-color-primary);
 }
 
 form {
@@ -20,8 +23,8 @@ ion-grid {
   ion-row {
     width: 100%;
     ion-col {
-      padding-left: 0rem;
-      padding-right: 0rem;
+      padding-left: 3rem;
+      padding-right: 3rem;
     }
   }
 }

@@ -7,6 +7,8 @@ const { App } = Plugins;
 
 import { VALIDATE_EMAIL } from '@shared/regex/email.regex';
 import { AuthService } from '../auth.service';
+import { NgForm } from '@angular/forms';
+import { retryWhen } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,8 @@ export class LoginPage implements OnInit {
     if (this.authService.isLoggedIn()) this.router.navigateByUrl('tabs/bugs');
   }
 
-  login(form) {
+  login(form: NgForm) {
+    if (form.invalid) return;
     this.authService.login(form.value).subscribe(
       (res) => {
         this.router.navigateByUrl('tabs/bugs');

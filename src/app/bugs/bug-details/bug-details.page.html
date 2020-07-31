@@ -20,7 +20,19 @@
     </ion-refresher>
     <img [defaultImage]="defaultImage" [lazyLoad]="bug.image" />
     <ion-card class="details">
-      <ion-card-header>{{bug.title.toUpperCase()}}</ion-card-header>
+      <ion-card-header>
+        <div>
+          {{bug.title.toUpperCase()}}
+        </div>
+        <div *ngIf="bug.user_id === userData.id">
+          <span><i>Fixed?</i></span
+          ><ion-toggle
+            color="secondary"
+            [(ngModel)]="isFixed"
+            (ionChange)="fixChange()"
+          ></ion-toggle>
+        </div>
+      </ion-card-header>
       <ion-card-subtitle
         ><ion-badge [color]="bug.is_fixed?'success':'danger'"
           >{{bug.is_fixed?'Fixed':'Open'}}</ion-badge
@@ -40,25 +52,29 @@
           <ion-card-title>
             <div class="votes">
               <div class="votes--updown">
-                <button
+                <ion-button
+                  fill="clear"
+                  size="small"
                   [disabled]="hasUpvoted(fix)"
-                  [style.color]="isUpvote(fix)?'#29c467':''"
+                  [color]="isUpvote(fix)===1?'success':'dark'"
                   (click)="updownVote(fix.id,true)"
                 >
                   <ion-icon name="caret-up-outline"></ion-icon>
                   <ion-ripple-effect></ion-ripple-effect>
-                </button>
+                </ion-button>
                 <div class="votes--number">
                   {{calcVotes(fix.votes)}}
                 </div>
-                <button
+                <ion-button
+                  fill="clear"
+                  size="small"
                   [disabled]="hasUpvoted(fix)"
-                  [style.color]="!isUpvote(fix)?'#29c467':''"
+                  [color]="isUpvote(fix)===0?'success':'dark'"
                   (click)="updownVote(fix.id,false)"
                 >
                   <ion-icon name="caret-down-outline"></ion-icon>
                   <ion-ripple-effect></ion-ripple-effect>
-                </button>
+                </ion-button>
               </div>
             </div>
             <div class="heading">
@@ -73,11 +89,16 @@
           ></ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          {{fix.description}}
+          <div markdown ngPreserveWhitespaces [data]="fix.description"></div>
         </ion-card-content>
       </ion-card>
     </ng-container>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab
+      vertical="bottom"
+      horizontal="end"
+      slot="fixed"
+      *ngIf="bug && !bug.is_fixed"
+    >
       <ion-fab-button>
         <ion-icon name="add-outline"></ion-icon>
       </ion-fab-button>

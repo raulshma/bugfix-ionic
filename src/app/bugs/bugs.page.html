@@ -50,6 +50,33 @@
                 <ion-badge color="dark">{{item.tech.name}}</ion-badge>
               </ion-card-subtitle>
               <ion-card-title>
+                <div class="votes">
+                  <div class="votes--updown">
+                    <ion-button
+                      fill="clear"
+                      size="small"
+                      [disabled]="hasUpvoted(item)"
+                      (click)="updownVote(item.id,true)"
+                      [color]="isUpvote(item)===1?'success':'dark'"
+                    >
+                      <ion-icon name="caret-up-outline"></ion-icon>
+                      <ion-ripple-effect></ion-ripple-effect>
+                    </ion-button>
+                    <div class="votes--number">
+                      {{calcVotes(item.votes)}}
+                    </div>
+                    <ion-button
+                      fill="clear"
+                      size="small"
+                      [disabled]="hasUpvoted(item)"
+                      (click)="updownVote(item.id,false)"
+                      [color]="isUpvote(item)===0?'success':'dark'"
+                    >
+                      <ion-icon name="caret-down-outline"></ion-icon>
+                      <ion-ripple-effect></ion-ripple-effect>
+                    </ion-button>
+                  </div>
+                </div>
                 <div class="heading">
                   <h1 [routerLink]="['/tabs/bugs',item.id]">{{item.title}}</h1>
                   <div *ngIf="item.user_id==userData.id">
