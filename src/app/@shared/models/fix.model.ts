@@ -15,9 +15,22 @@ export interface VOTES_POST {
   is_upvote: boolean;
 }
 
+export interface VOTES_POST_BUG {
+  user_id: number;
+  bug_id: number;
+  is_upvote: boolean;
+}
+
 export interface Votes_Fix {
   id: number;
   user_id: number;
   fix_id: number;
+  is_upvote: boolean;
+}
+
+export interface Votes_Bug {
+  id: number;
+  user_id: number;
+  bug_id: number;
   is_upvote: boolean;
 }

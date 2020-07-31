@@ -24,6 +24,8 @@ export class BugDetailsPage implements OnInit, OnDestroy {
   defaultImage: string = 'assets/images/placeholder.png';
   bug: Bug;
 
+  isFixed: Boolean = false;
+
   userData: any;
 
   constructor(
@@ -58,6 +60,7 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     await this.bugService.get(id).subscribe((data: Bug) => {
       this.bug = data[0];
       if (!this.bug.image) this.bug.image = this.defaultImage;
+      this.isFixed = this.bug.is_fixed;
     });
   }
 
@@ -157,6 +160,41 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  private count: number = 0;
+  async fixChange() {
+    if (this.count == 1) return (this.count = 0);
+    const alert = await this.alertController.create({
+      cssClass: 'fixed',
+      header: 'Confirm Action!',
+      message: 'Are you sure you want to change bug fixed status?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.isFixed = !this.isFixed;
+            this.count = this.count + 1;
+          },
+        },
+        {
+          text: 'Confirm',
+          handler: async () => {
+            this.bugService
+              .update({ id: this.bug.id, is_fixed: this.isFixed } as Bug)
+              .subscribe(async (res: Bug) => {
+                this.toast('Updated Status');
+                await this.getBug(this.bug.id);
+              });
+            this.count = 0;
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   hasUpvoted(fix: Fix): Boolean {
     if (fix.user_id === this.userData.id) return true;
     const vote = fix.votes_fix.find(
@@ -166,12 +204,12 @@ export class BugDetailsPage implements OnInit, OnDestroy {
     return false;
   }
 
-  isUpvote(fix: Fix): Boolean {
+  isUpvote(fix: Fix): number {
     const vote = fix.votes_fix.find(
       (e: Votes_Fix) => e.user_id == this.userData.id
     );
-    if (vote) return vote.is_upvote;
-    return false;
+    if (vote) return vote.is_upvote ? 1 : 0;
+    return -1;
   }
 
   calcVotes(votes: number) {

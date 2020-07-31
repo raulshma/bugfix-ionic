@@ -22,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
 
 //Components
 import { AppComponent } from './app.component';
+import { Network } from '@ionic-native/network/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +39,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
   ],
   providers: [
+    Network,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

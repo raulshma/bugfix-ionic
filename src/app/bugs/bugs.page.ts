@@ -15,6 +15,7 @@ import { AdminService } from '../admin/admin.service';
 import { BugsService } from './bugs.service';
 
 import { AddEditBugsComponent } from './add-edit/add-edit.component';
+import { Votes_Bug, VOTES_POST_BUG } from '@shared/models/fix.model';
 
 @Component({
   selector: 'app-bugs',
@@ -73,6 +74,20 @@ export class BugsPage implements OnInit, OnDestroy {
         this.versions = data;
       });
   }
+
+  async updownVote(id: number, is_upvote: boolean) {
+    const data: VOTES_POST_BUG = {
+      is_upvote,
+      bug_id: id,
+      user_id: this.userData.id,
+    };
+    await this.bugService.updownVotesBug(data).subscribe((e) => {
+      const bug = this.bugs.find((b) => b.id == id);
+      bug.votes = is_upvote ? bug.votes + 1 : bug.votes - 1;
+      this.cdr.detectChanges();
+    });
+  }
+
   async add() {
     const modal = await this.modalController.create({
       component: AddEditBugsComponent,
@@ -174,6 +189,28 @@ export class BugsPage implements OnInit, OnDestroy {
     await Promise.all([this.getBugs(), this.getVersions()]).then((e) => {
       event.target.complete();
     });
+  }
+
+  hasUpvoted(bug: Bug): Boolean {
+    if (bug.user_id === this.userData.id) return true;
+    const vote = bug.votes_bug.find(
+      (e: Votes_Bug) => e.user_id == this.userData.id
+    );
+    if (vote) return vote.is_upvote;
+    return false;
+  }
+
+  isUpvote(bug: Bug): number {
+    const vote = bug.votes_bug.find(
+      (e: Votes_Bug) => e.user_id == this.userData.id
+    );
+    if (vote) return vote.is_upvote ? 1 : 0;
+    return -1;
+  }
+
+  calcVotes(votes: number) {
+    if (!votes) return 0;
+    return Math.round(votes);
   }
 
   filterChanged(value: Tech) {
